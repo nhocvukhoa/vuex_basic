@@ -1,33 +1,45 @@
 <template>
-	<TheNavbar />
+  <NavBar />
   <div class="todo-list">
-    <ul>
-      <li v-for="todo in todos" :key="todo.id">{{ todo.title }}</li>
+    <ul v-if="checkAuthenticated">
+      <li v-for="todo in todos" :key="todo.id" @click="test">{{ todo.title }}</li>
     </ul>
+    <p v-else class="auth-error">Not auth</p>
   </div>
+  <StatusBar />
+  <ProgressBar />
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import TheNavbar from '../components/TheNavbar.vue'
+<script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import NavBar from '../components/NavBar.vue'
+import StatusBar from '../components/StatusBar.vue'
+import ProgressBar from '../components/ProgressBar.vue'
 
-const todos = ref([
-  {
-    id: 1,
-    title: 'Công việc 1',
-    completed: false
+export default {
+  components: {
+    NavBar,
+    StatusBar,
+    ProgressBar,
   },
-  {
-    id: 2,
-    title: 'Công việc 2',
-    completed: false
-  },
-  {
-    id: 3,
-    title: 'Công việc 3',
-    completed: false
+  setup() {
+    const store = useStore();
+
+    const todos = computed(() => {
+      return store.state.todos
+    });
+
+    const checkAuthenticated = computed(() => {
+      return store.state.auth.authenticated;
+    });
+
+    return {
+      todos,
+      checkAuthenticated
+    }
   }
-])
+}
 </script>
 
 <style>
@@ -43,5 +55,9 @@ const todos = ref([
   border-radius: 4px;
   background: rgb(240, 240, 240);
   color: black;
+}
+
+.auth-error {
+  text-align: center;
 }
 </style>
