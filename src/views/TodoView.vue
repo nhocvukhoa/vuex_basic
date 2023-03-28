@@ -21,18 +21,18 @@ export default {
   components: {
     NavBar,
     StatusBar,
-    ProgressBar,
+    ProgressBar
   },
   setup() {
-    const store = useStore();
+    const store = useStore()
 
     const todos = computed(() => {
       return store.state.todos
-    });
+    })
 
     const checkAuthenticated = computed(() => {
-      return store.state.auth.authenticated;
-    });
+      return store.state.auth.isAuthenticated
+    })
 
     return {
       todos,
