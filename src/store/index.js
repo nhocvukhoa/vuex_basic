@@ -32,10 +32,26 @@ const store = createStore({
       const doneTodos = getters.doneTodos
 
       return Math.round((doneTodos.length / state.todos.length) * 100)
+    },
+    checkAuthenticated: state => state.auth.isAuthenticated, 
+  },
+  // Biến đổi dữ liệu của state
+  mutations: {
+    toggleAuth(state) {
+      state.auth.isAuthenticated = !state.auth.isAuthenticated;
+    },
+    markTodoCompleted(state, todoID) {
+      state.todos.map(todo => {
+        if (todo.id == todoID) {
+          todo.completed = !todo.completed;
+        
+          return todo;
+        }
+      })
     }
   },
   actions: {},
-  mutations: {}
+ 
 })
 
 export default store
