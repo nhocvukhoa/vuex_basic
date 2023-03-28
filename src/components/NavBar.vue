@@ -5,26 +5,26 @@
       <li>Home</li>
       <li>About</li>
     </ul>
-		<p>Total todos: {{ totalTodo }}</p>
+    <p>Total todos: {{ totalTodo.length }}</p>
   </div>
 </template>
 
 <script>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
-	setup() {
-		const store = useStore();
+  setup() {
+    const store = useStore()
 
-		const totalTodo = computed(() => {
-			return store.state.todos.length;
-		});
+    const totalTodo = computed(() => {
+      return store.getters.totalTodo
+    })
 
-		return {
-			totalTodo,
-		}
-	}
+    return {
+      totalTodo
+    }
+  }
 }
 </script>
 
